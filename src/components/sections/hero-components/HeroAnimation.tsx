@@ -16,7 +16,7 @@ export default function HeroAnimation() {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % totalCards);
-    }, 3000);
+    }, 1000);
     return () => clearInterval(interval);
   }, []);
 
