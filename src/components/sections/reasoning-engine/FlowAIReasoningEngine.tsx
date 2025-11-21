@@ -322,10 +322,10 @@ export default function FlowAIReasoningEngine() {
 
             {/* Title and Description */}
             <div className="flex flex-col gap-2 items-start w-full">
-              <p className="font-semibold text-base leading-[28px] text-[#130F0C] w-full">
+              <p className="font-semibold text-lg leading-[28px] text-[#130F0C] w-full">
                 {cardData.contextual.title}
               </p>
-              <p className="font-normal text-xs leading-6 text-[#717171] w-full">
+              <p className="font-normal text-sm leading-6 text-[#717171] w-full">
                 {cardData.contextual.description}
               </p>
             </div>
@@ -334,7 +334,7 @@ export default function FlowAIReasoningEngine() {
 
         {/* Card 2: Specialty-Specific Workflows */}
         <button
-          className={`flex flex-col h-[520px] items-start justify-between p-6 rounded-3xl transition-all duration-300 ${
+          className={`flex flex-col h-[520px] items-start justify-between p-6 rounded-3xl transition-all duration-300 text-left ${
             isExpanded("specialty")
               ? "bg-white border border-white w-[600px] shrink-0"
               : "bg-white/70 border border-white flex-1 min-w-0 cursor-pointer hover:bg-white/80"
@@ -446,11 +446,11 @@ export default function FlowAIReasoningEngine() {
             )}
 
             {/* Title and Description */}
-            <div className="flex flex-col gap-2 items-start w-full">
-              <p className="font-semibold text-base leading-[28px] text-[#130F0C] w-full">
+            <div className="flex flex-col gap-2 items-start w-full text-left">
+              <p className="font-semibold text-lg leading-[28px] text-[#130F0C] w-full text-left">
                 {cardData.specialty.title}
               </p>
-              <p className="font-normal text-xs leading-6 text-[#423F3D] w-full">
+              <p className="font-normal text-sm leading-6 text-[#423F3D] w-full text-left">
                 {cardData.specialty.description}
               </p>
             </div>
@@ -513,10 +513,10 @@ export default function FlowAIReasoningEngine() {
 
             {/* Title and Description */}
             <div className="flex flex-col gap-2 items-start w-full">
-              <p className="font-semibold text-base leading-[28px] text-[#130F0C] w-full">
+              <p className="font-semibold text-lg leading-[28px] text-[#130F0C] w-full">
                 {cardData.simulation.title}
               </p>
-              <p className="font-normal text-xs leading-6 text-[#423F3D] w-full">
+              <p className="font-normal text-sm leading-6 text-[#423F3D] w-full">
                 {cardData.simulation.description}
               </p>
             </div>
