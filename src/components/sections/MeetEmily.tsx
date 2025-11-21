@@ -221,6 +221,7 @@ export default function MeetEmily() {
 
   return (
     <section
+      id="product"
       className="relative w-full min-h-screen md:min-h-[1100px] lg:min-h-[1200px] xl:min-h-[1273px] flex flex-col items-center overflow-hidden px-4 md:px-12 lg:px-16 xl:px-20 py-[80px] md:py-[100px] lg:py-[120px]"
       style={{
         background:

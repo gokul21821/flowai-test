@@ -32,7 +32,7 @@ const featuresData = [
 
 export default function Features() {
   return (
-    <section className="w-full py-20 px-5 md:px-20 flex justify-center items-center bg-white">
+    <section id="about" className="w-full py-20 px-5 md:px-20 flex justify-center items-center bg-white">
       {/* Container with gradient background and gaps */}
       <div
         className="w-full max-w-[1280px] rounded-[24px] p-5 md:p-8 lg:p-10"

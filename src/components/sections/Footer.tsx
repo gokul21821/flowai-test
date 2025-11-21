@@ -5,10 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-  };
-
   return (
     <footer
       className="w-full flex items-center justify-center"
@@ -41,36 +37,31 @@ export default function Footer() {
             {/* Column 1: Product Links */}
             <div className="flex flex-col gap-3 shrink-0">
               <Link
-                href="#"
-                onClick={handleLinkClick}
+                href="#product"
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
               >
                 Product
               </Link>
               <Link
-                href="#"
-                onClick={handleLinkClick}
+                href="#outcomes"
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
               >
                 Outcomes
               </Link>
               <Link
-                href="#"
-                onClick={handleLinkClick}
+                href="#trust"
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
               >
                 Trust
               </Link>
               <Link
-                href="#"
-                onClick={handleLinkClick}
+                href="#about"
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
               >
                 About
               </Link>
               <Link
-                href="#"
-                onClick={handleLinkClick}
+                href="#get-started"
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
               >
                 Get Started
@@ -81,14 +72,12 @@ export default function Footer() {
             <div className="flex flex-col gap-3 shrink-0">
               <Link
                 href="#"
-                onClick={handleLinkClick}
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all whitespace-pre-wrap"
               >
                 Resources
               </Link>
               <Link
                 href="#"
-                onClick={handleLinkClick}
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
               >
                 ROI Calculator
@@ -105,14 +94,12 @@ export default function Footer() {
           <div className="flex gap-4 items-center">
             <Link
               href="#"
-              onClick={handleLinkClick}
               className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
             >
               Privacy Policy
             </Link>
             <Link
               href="#"
-              onClick={handleLinkClick}
               className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
             >
               Terms & Conditions

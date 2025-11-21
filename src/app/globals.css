@@ -51,6 +51,29 @@
   --radius-card-lg: var(--radius-card-lg);
 }
 
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thick;
+  scrollbar-color: #f48024 rgba(255, 255, 255, 0.3);
+}
+
+html::-webkit-scrollbar {
+  width: 8px;
+}
+
+html::-webkit-scrollbar-track {
+  background: rgba(248, 128, 36, 0.1);
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: #f48024;
+  border-radius: 4px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(248, 128, 36, 0.8);
+}
+
 body {
   font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--color-white);

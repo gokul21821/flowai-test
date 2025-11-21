@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 import Button from "@/components/ui/Button";
 
 type TabType = "reduce-leakage" | "shorten-time" | "staff-capacity" | "lower-cost";
@@ -122,8 +123,13 @@ export default function Results() {
   const [activeTab, setActiveTab] = useState<TabType>("reduce-leakage");
   const content = tabContent[activeTab];
 
+  // Get the index of the active tab to determine animation direction
+  const getTabIndex = (tabId: TabType) => tabs.findIndex(t => t.id === tabId);
+  const activeTabIndex = getTabIndex(activeTab);
+
   return (
     <section
+      id="outcomes"
       className="relative w-full flex flex-col items-center justify-center px-5 md:px-20 py-12 md:py-16 overflow-hidden"
       style={{
         background:
@@ -164,15 +170,26 @@ export default function Results() {
           <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-stretch w-full">
             {/* Left Panel - Tabs */}
             <div className="flex flex-col gap-2 w-full xl:w-[602px] xl:h-full">
-              {tabs.map((tab) => {
+              {tabs.map((tab, index) => {
                 const isActive = activeTab === tab.id;
                 const tabData = tabContent[tab.id];
 
                 if (isActive) {
                   return (
-                    <div
+                    <motion.div
                       key={tab.id}
-                      className="bg-[rgba(255,255,255,0.24)] rounded-2xl p-6 flex flex-col gap-4 xl:h-[504px] mb-2"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="bg-[rgba(255,255,255,0.24)] rounded-2xl overflow-hidden mb-2"
+                    >
+                      <motion.div 
+                        initial={{ y: index === 0 ? -20 : 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: index === 0 ? -20 : 20, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut", delay: 0.1 }}
+                        className="p-6 flex flex-col gap-4 xl:h-[504px]"
                     >
                       {/* Title */}
                       <div className="flex items-center justify-between">
@@ -349,13 +366,18 @@ export default function Results() {
                       >
                         {tabData.ctaText}
                       </Button>
-                    </div>
+                      </motion.div>
+                    </motion.div>
                   );
                 }
 
                 return (
-                  <button
+                  <motion.button
                     key={tab.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2 }}
                     onClick={() => setActiveTab(tab.id)}
                     className="flex gap-4 items-center justify-between p-6 rounded-2xl transition-all text-left bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.15)]"
                   >
@@ -371,7 +393,7 @@ export default function Results() {
                         className="w-6 h-6  transition-transform"
                       />
                     </div>
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
@@ -379,15 +401,24 @@ export default function Results() {
             {/* Right Panel - Image with Graph and Metrics (Desktop Only) */}
             <div className="hidden xl:flex bg-[#1f1f1f] rounded-3xl overflow-hidden relative w-full xl:w-[630px] h-full min-h-[756px]">
               {/* Background Image */}
-              <div className="absolute inset-0 w-full h-full">
-                <Image
-                  src={content.backgroundImage}
-                  alt={content.title}
-                  fill
-                  className="object-cover object-center"
-                  priority={activeTab === "reduce-leakage"}
-                />
-              </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 10, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <Image
+                    src={content.backgroundImage}
+                    alt={content.title}
+                    fill
+                    className="object-cover object-center"
+                    priority={activeTab === "reduce-leakage"}
+                  />
+                </motion.div>
+              </AnimatePresence>
 
               {/* Graph Card Overlay - Positioned slightly left for Desktop */}
               <div className="absolute left-[calc(50%-100px)] top-[420px] -translate-x-1/2 rounded-[20px] overflow-hidden w-[380px] h-[220px] z-10">

@@ -214,7 +214,7 @@ export default function FAQ() {
       <div className="w-full max-w-[1280px] flex flex-col gap-8 items-center">
         {/* Tabs */}
         <div className="w-full overflow-x-auto lg:overflow-visible">
-          <div className="bg-neutral-100 rounded-[48px] p-2 flex gap-1 md:gap-2 lg:gap-1 w-max mx-auto lg:w-full lg:justify-center">
+          <div className="bg-neutral-100 rounded-[48px] p-2 flex gap-1 md:gap-2 lg:gap-8 w-max mx-auto lg:w-full lg:justify-center">
             {categories.map((category, index) => {
               const isActive = activeCategory === category;
               const categoryIndex = categories.findIndex(cat => cat === category);

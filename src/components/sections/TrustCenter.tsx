@@ -6,7 +6,7 @@ import Button from "@/components/ui/Button";
 
 export default function TrustCenter() {
   return (
-    <section className="w-full flex justify-center px-5 md:px-10 lg:px-20 py-[50px] bg-white overflow-hidden">
+    <section id="trust" className="w-full flex justify-center px-5 md:px-10 lg:px-20 py-[50px] bg-white overflow-hidden">
       <div className="w-full max-w-[1280px] flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-16 items-stretch">
         {/* Left Column - Content */}
         <div className="flex flex-col gap-12 w-full lg:w-[586px] shrink-0">
