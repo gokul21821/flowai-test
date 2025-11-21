@@ -1,26 +1,113 @@
 @import "tailwindcss";
 
+/* Flow AI Design System Tokens */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colors */
+  --color-primary-orange: #f48024;
+  --color-primary-light: #FFF0E6;
+  --color-dark-neutral: #130F0C;
+  --color-dark-blue: #1c275e;
+  --color-dark-background: #1f1f1f;
+  --color-gray-700: #414651;
+  --color-neutral-400: #423F3D;
+  --color-body-text: #717171;
+  --color-white: #FFFFFF;
+
+  /* Spacing */
+  --spacing-section-horizontal: 80px;
+  --spacing-content-max-width: 1280px;
+  --spacing-viewport-max-width: 1440px;
+
+  /* Border Radius */
+  --radius-button: 9999px;
+  --radius-card-sm: 12px;
+  --radius-card-lg: 24px;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Colors */
+  --color-primary: var(--color-primary-orange);
+  --color-primary-light: var(--color-primary-light);
+  --color-dark-neutral: var(--color-dark-neutral);
+  --color-dark-blue: var(--color-dark-blue);
+  --color-dark-bg: var(--color-dark-background);
+  --color-gray-700: var(--color-gray-700);
+  --color-neutral-400: var(--color-neutral-400);
+  --color-body-text: var(--color-body-text);
+  --color-white: var(--color-white);
+
+  /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Spacing */
+  --spacing-section-px: var(--spacing-section-horizontal);
+  --container-max-w: var(--spacing-content-max-width);
+  --viewport-max-w: var(--spacing-viewport-max-width);
+
+  /* Border Radius */
+  --radius-button: var(--radius-button);
+  --radius-card-sm: var(--radius-card-sm);
+  --radius-card-lg: var(--radius-card-lg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--color-white);
+  color: var(--color-dark-neutral);
+  line-height: 1.5;
+}
+
+/* Utility Classes */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Logo Scrolling Animations */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 25s linear infinite;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  display: flex;
+  width: fit-content;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.animate-scroll-right {
+  animation: scroll-right 25s linear infinite;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  display: flex;
+  width: fit-content;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.animate-scroll-left:hover,
+.animate-scroll-right:hover {
+  animation-play-state: paused;
 }
