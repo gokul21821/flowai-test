@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import {
   FaxCard,
   InsuranceCard,
@@ -27,80 +27,91 @@ export default function HeroAnimation() {
     { id: 3, component: IntakeCard },
   ];
 
-  // NEW WIDTHS + NEW Y OFFSETS + CLEANER STACK
-  const getCardStyle = (index: number) => {
-    const position = (index - activeIndex + totalCards) % totalCards;
+  // 3D Variants: Uses 'z' (translateZ) for true depth sorting
+  const variants: Variants = {
+    active: {
+      y: 110,
+      z: 0, // Closest to camera
+      scale: 1,
+      opacity: 1,
+      width: "100%", // Full width
+      zIndex: 50,
+      filter: "blur(0px)",
+      transition: { duration: 0.8, ease: "easeInOut" },
+    },
+    second: {
+      y: 50,
+      z: -100, // 100px back
+      scale: 1,
+      opacity: 0.8, // Slightly faded
+      width: "90%", // Narrower
+      zIndex: 40,
+      filter: "blur(1px)",
+      transition: { duration: 0.8, ease: "easeInOut" },
+    },
+    third: {
+      y: -5,
+      z: -200, // 200px back
+      scale: 1,
+      opacity: 0.6,
+      width: "80%", // Even narrower
+      zIndex: 30,
+      filter: "blur(1px)",
+      transition: { duration: 0.8, ease: "easeInOut" },
+    },
+    fourth: {
+      y: -60,
+      z: -300, // 300px back (Furthest away)
+      scale: 1,
+      opacity: 0.4,
+      width: "70%", // Narrowest
+      zIndex: 20,
+      filter: "blur(1px)",
+      transition: { duration: 0.8, ease: "easeInOut" },
+    },
+  };
 
-    switch (position) {
-      case 0:
-        return {
-          zIndex: 6,
-          scale: 1,
-          y: -18,
-          opacity: 1,
-          width: "100%",
-        };
-      case 1:
-        return {
-          zIndex: 5,
-          scale: 1,
-          y: -190, // moderate lift
-          opacity: 0.65,
-          width: "90%",
-        };
-      case 2:
-        return {
-          zIndex: 4,
-          scale: 1,
-          y: -218,
-          opacity: 0.45,
-          width: "80%",
-        };
-      case 3:
-        return {
-          zIndex: 3,
-          scale: 1,
-          y: -245,
-          opacity: 0.25,
-          width: "70%",
-        };
-      default:
-        return {
-          zIndex: 6,
-          scale: 1,
-          y: -2,
-          opacity: 1,
-          width: "100%",
-        };
-    }
+  const getVariant = (index: number) => {
+    const position = (index - activeIndex + totalCards) % totalCards;
+    if (position === 0) return "active";
+    if (position === 1) return "second";
+    if (position === 2) return "third";
+    return "fourth";
   };
 
   return (
-    <div className="relative w-full h-full min-h-[300px] flex justify-center items-end pb-10">
-      <div className="relative w-full max-w-[600px] h-[500px] flex justify-center items-center">
+    // 1. Perspective Container: Defines the 3D space
+    // 'perspective' determines how "deep" the 3D effect looks.
+    <div 
+      className="relative w-full h-full min-h-[300px] flex justify-center items-end pb-10 overflow-hidden"
+      style={{ perspective: "1200px" }} 
+    >
+      {/* 2. 3D Scene Wrapper */}
+      <div 
+        className="relative w-full max-w-[600px] h-[500px] flex justify-center items-center"
+        style={{ transformStyle: "preserve-3d" }}
+      >
         {cards.map((card, index) => {
-          const style = getCardStyle(index);
-          const isActive = index === activeIndex;
           const CardComponent = card.component;
+          const variantName = getVariant(index);
+          // Pass isActive logic to the card so it handles its own colors/content
+          const isActive = variantName === "active";
 
           return (
             <motion.div
               key={card.id}
-              className="absolute flex justify-center"
-              initial={false}
-              animate={{
-                zIndex: style.zIndex,
-                scale: style.scale,
-                y: style.y,
-                opacity: style.opacity,
-                width: style.width, // NEW WIDTH CASCADE
-              }}
-              transition={{
-                duration: 1,
-                ease: "easeInOut",
+              className="absolute flex justify-center top-0 origin-bottom"
+              animate={variantName}
+              variants={variants}
+              style={{
+                // Crucial: Preserves the 3D context for children
+                transformStyle: "preserve-3d", 
+                // Prevents flickering during rotation/movement
+                backfaceVisibility: "hidden",
               }}
             >
-              <div className="w-full">
+              {/* Content Wrapper */}
+              <div className="w-full relative">
                 <CardComponent isActive={isActive} />
               </div>
             </motion.div>

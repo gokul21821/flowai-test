@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -166,11 +166,41 @@ const tabLabels: Record<TabType, string> = {
   analytics: "Analytics AI",
 };
 
+const tabKeys = Object.keys(tabLabels) as TabType[];
+
+// Helper to determine slide direction based on tab index
+const getSlideDirection = (tabIndex: number): "left" | "right" => {
+  return tabIndex % 2 === 0 ? "right" : "left";
+};
+
+// Helper to get tab index
+const getTabIndex = (tabKey: TabType): number => {
+  return tabKeys.indexOf(tabKey);
+};
+
+// Icon components for better performance (inline SVGs)
+const CheckIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="w-5 h-5 md:w-6 md:h-6">
+    <g opacity="0.2">
+      <rect x="0.5" y="0.5" width="23" height="23" rx="11.5" stroke="#331E10"/>
+      <path d="M6 11.9998L10 15.9998L18 7.9998" stroke="#331E10" strokeLinecap="round" strokeLinejoin="round"/>
+    </g>
+  </svg>
+);
+
+const ArrowIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="w-5 h-5 md:w-6 md:h-6">
+    <path d="M19 12.0001L5 12.0001M19 12.0001L13 6.00006M19 12.0001L13 18.0001" stroke="#F48024" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
 export default function MeetEmily() {
   const [activeTab, setActiveTab] = useState<TabType>("fax-inbox");
   const content = tabContent[activeTab];
+  const activeTabIndex = getTabIndex(activeTab);
+  const slideDirection = getSlideDirection(activeTabIndex);
 
-  const renderTabButton = (tabKey: TabType, layout: "horizontal" | "vertical") => {
+  const renderTabButton = useCallback((tabKey: TabType, layout: "horizontal" | "vertical") => {
     const isActive = activeTab === tabKey;
 
     const baseWidthClasses =
@@ -195,29 +225,22 @@ export default function MeetEmily() {
         className={`${baseWidthClasses} ${paddingClasses} rounded-xl border-2 ${
           isActive ? "bg-white" : "bg-white/90"
         }`}
-        style={{
-          borderColor: isActive ? "#f48024" : "transparent",
-        }}
         animate={{
-          borderColor: isActive ? "#f48024" : "transparent",
+          borderColor: isActive ? "#f48024" : "rgba(244, 128, 36, 0)",
           backgroundColor: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.9)",
           opacity: isActive ? 1 : 0.6,
         }}
         whileHover={!isActive ? { opacity: 0.8 } : {}}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       >
-        <motion.p
-          className={`text-left font-medium text-black whitespace-pre-wrap leading-6 md:leading-[26px] lg:leading-7 ${textSizeClasses}`}
-          animate={{
-            opacity: isActive ? 1 : 0.6,
-          }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-        >
+        <p className={`text-left font-medium text-black whitespace-pre-wrap leading-6 md:leading-[26px] lg:leading-7 ${textSizeClasses}`}>
           {tabLabels[tabKey]}
-        </motion.p>
+        </p>
       </motion.button>
     );
-  };
+  }, [activeTab]);
+
+  const tabList = useMemo(() => tabKeys, []);
 
   return (
     <section
@@ -273,12 +296,10 @@ export default function MeetEmily() {
                 <div className="absolute top-[4%] left-[-4%] md:left-[20%] w-[58%] max-w-[190px] z-[1]">
                   <div className="backdrop-blur-[2px] bg-white/80 border border-[rgba(227,227,227,0.3)] rounded-[14px] p-3 w-full aspect-[260/190]">
                     <div className="relative w-full h-full">
-                      <Image
+                      <img
                         src="/meetemily/graph.svg"
                         alt="Customer Satisfaction Chart"
-                        fill
-                        className="object-contain"
-                        unoptimized
+                        className="w-full h-full object-contain"
                       />
                     </div>
                   </div>
@@ -292,7 +313,8 @@ export default function MeetEmily() {
                       alt="Emily"
                       fill
                       className="object-contain object-center"
-                      unoptimized
+                      priority
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
                 </div>
@@ -300,12 +322,10 @@ export default function MeetEmily() {
                 {/* Percentage Circle - bottom right, overlapping */}
                 <div className="absolute bottom-[10%] right-[-4%] md:left-[70%] w-[55%] max-w-[400px] z-[10]">
                   <div className="relative w-full aspect-[340/200]">
-                    <Image
+                    <img
                       src="/meetemily/percentage.svg"
                       alt="Resolution Rate"
-                      fill
-                      className="object-contain"
-                      unoptimized
+                      className="w-full h-full object-contain"
                     />
                   </div>
                 </div>
@@ -320,12 +340,10 @@ export default function MeetEmily() {
             {/* Graph Card (Back Layer) */}
             <div className="absolute top-[12%] left-[4%] z-[7] w-[52%] xl:w-[50%]">
               <div className="backdrop-blur-[2px] bg-white/80 border border-[rgba(227,227,227,0.3)] rounded-[16px] p-5 w-full aspect-[260/190] relative">
-                <Image
+                <img
                   src="/meetemily/graph.svg"
                   alt="Customer Satisfaction Chart"
-                  fill
-                  className="object-contain"
-                  unoptimized
+                  className="w-full h-full object-contain"
                 />
               </div>
             </div>
@@ -337,29 +355,28 @@ export default function MeetEmily() {
                 alt="Emily"
                 fill
                 className="object-contain"
-                unoptimized
+                priority
+                sizes="(max-width: 1024px) 0vw, 40vw"
               />
             </div>
 
             {/* Percentage Circle (Front Layer) */}
             <div className="absolute top-[48%] right-[-12%] xl:right-[-14%] w-[68%] xl:w-[66%] aspect-[340/200] z-[12]">
-              <Image
+              <img
                 src="/meetemily/percentage.svg"
                 alt="Resolution Rate"
-                fill
-                className="object-contain"
-                unoptimized
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
         </div>
 
         {/* Main Content: Tabs and Detail Panel - Overlapping Content Container */}
-        <div className="relative z-20 -mt-32 md:-mt-48 lg:-mt-40 xl:-mt-52 2xl:-mt-58 bg-[rgba(245,245,245,0.4)] rounded-2xl md:rounded-3xl p-3 md:p-4 w-full max-w-[720px] md:max-w-[1100px] lg:max-w-[1280px] xl:max-w-[1380px] flex flex-col gap-3 md:gap-4 items-stretch mx-auto">
+        <div className="relative z-20 -mt-32 md:-mt-48 lg:-mt-40 xl:-mt-52 2xl:-mt-58 bg-[rgba(245,245,245,0.4)] rounded-2xl md:rounded-3xl p-3 md:p-4 w-full max-w-[720px] md:max-w-[1100px] lg:max-w-[1440px] xl:max-w-[1380px] flex flex-col gap-3 md:gap-4 items-stretch mx-auto">
           {/* Mobile / Tablet Tabs (Horizontal, Scrollable) */}
           <div className="w-full lg:hidden overflow-x-auto pb-3">
             <div className="flex gap-2 md:gap-3 w-max mx-auto">
-              {(Object.keys(tabLabels) as TabType[]).map((tabKey) =>
+              {tabList.map((tabKey) =>
                 renderTabButton(tabKey, "horizontal")
               )}
             </div>
@@ -368,167 +385,149 @@ export default function MeetEmily() {
           {/* Layout for Tabs + Detail Content */}
           <div className="flex flex-col lg:flex-row gap-3 md:gap-4 items-stretch">
             {/* Left Panel: Tabs (Desktop) */}
-            <div className="hidden lg:flex flex-1 flex-col gap-3 md:gap-4 min-w-0">
+            <div className="hidden lg:flex flex-col gap-3 md:gap-4 shrink-0 lg:max-w-[260px] xl:max-w-[320px]">
               <div className="flex flex-col gap-3 md:gap-4 items-start w-full">
-                {(Object.keys(tabLabels) as TabType[]).map((tabKey) =>
+                {tabList.map((tabKey) =>
                   renderTabButton(tabKey, "vertical")
                 )}
               </div>
             </div>
 
             {/* Right Panel: Detail Content */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-[16px] md:rounded-[18px] lg:rounded-[20px] p-5 md:p-7 lg:p-8 xl:p-9 flex flex-col gap-4 md:gap-5 lg:gap-6 w-full lg:w-[460px] xl:w-[750px] 2xl:w-[950px]">
-        
-            {/* Title and Image Section */}
-            <div className="flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-[50px] items-start w-full">
-              <div className="flex flex-1 flex-col gap-5 md:gap-6 lg:gap-[31px] items-start min-w-0">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`title-${activeTab}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex flex-col gap-1 items-start w-full"
-                  >
-                    <h3 className="text-xl md:text-xl lg:text-xl xl:text-2xl leading-[28px] md:leading-[32px] lg:leading-[34px] xl:leading-[36px] font-semibold text-[#331e10] whitespace-pre-wrap">
-                      {content.title}
-                    </h3>
-                  </motion.div>
-                </AnimatePresence>
-                
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`whatEmilyDoes-${activeTab}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex flex-col gap-2 items-start w-full"
-                  >
-                    <p className="text-sm font-medium leading-[1.6] text-[#331e10] tracking-[-0.168px]">
-                      What Emily Does
-                    </p>
-                    <div className="flex gap-2 items-center w-full">
-                      <p className="flex-1 text-sm md:text-[15px] lg:text-base leading-5 md:leading-[22px] lg:leading-6 font-normal text-[rgba(51,30,16,0.6)] whitespace-pre-wrap">
-                        {content.whatEmilyDoes}
-                      </p>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-                
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`button-${activeTab}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="w-full"
-                  >
-                    <Button
-                      className="w-full h-[46px] md:h-[48px] lg:h-[50px] px-5 md:px-6 py-2 text-sm md:text-base"
-                      variant="Primary"
-                      size="sm"
-                    >
-                      {content.buttonText}
-                    </Button>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-              
-              {/* Image Container */}
-              <div className="bg-[#f0f0f0] w-full lg:flex-1 h-[260px] md:h-[300px] lg:h-[320px] xl:h-[324px] min-h-[260px] md:min-h-[300px] lg:min-h-[320px] xl:min-h-[324px] overflow-hidden relative rounded-xl md:rounded-2xl">
-                <div className="absolute bg-gradient-to-b from-transparent via-transparent to-[#fbf7f3] h-[168px] left-1/2 -translate-x-1/2 top-[calc(100%-68px)] w-full" />
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`image-${activeTab}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="relative w-full h-full"
-                  >
-                    <Image
-                      src={content.image}
-                      alt={content.title}
-                      fill
-                      className="object-contain p-3 md:p-4"
-                      unoptimized
-                    />
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-
-            {/* Guardrails and Integrations */}
-            <div className="bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 lg:p-6 flex flex-col lg:flex-row gap-8 md:gap-10 lg:gap-12 items-start w-full">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`guardrails-${activeTab}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex flex-col gap-2 items-start"
-                >
-                  <p className="text-sm font-medium leading-5 text-[#331e10] whitespace-pre-wrap min-w-full">
-                    Guardrails
-                  </p>
-                  <div className="flex flex-col gap-2.5 md:gap-3 items-start">
-                    {content.guardrails.map((item, index) => (
-                      <div key={index} className="flex gap-2 items-center">
-                        <div className="w-5 h-5 md:w-6 md:h-6 shrink-0">
-                          <Image
-                            src="/meetemily/checkbox.svg"
-                            alt="check"
-                            width={24}
-                            height={24}
-                            className="w-5 h-5 md:w-6 md:h-6"
-                            unoptimized
-                          />
+            <div className="bg-white/80 backdrop-blur-sm rounded-[16px] md:rounded-[18px] lg:rounded-[20px] p-5 md:p-7 lg:p-8 xl:p-9 flex flex-col gap-4 md:gap-5 lg:gap-6 w-full lg:flex-1 min-w-0">
+              <div className="flex flex-col gap-4 md:gap-5 lg:gap-6 w-full">
+                  {/* Title and Image Section */}
+                  <div className="flex flex-col lg:flex-row gap-6 md:gap-8 lg:gap-[50px] items-start w-full">
+                    <div className="flex flex-1 flex-col gap-5 md:gap-6 lg:gap-[31px] items-start min-w-0">
+                      <div className="relative flex flex-col gap-1 items-start w-full">
+                        {/* Placeholder to maintain height in flow */}
+                        <div className="invisible pointer-events-none">
+                          <h3 className="text-xl md:text-xl lg:text-xl xl:text-2xl leading-[28px] md:leading-[32px] lg:leading-[34px] xl:leading-[36px] font-semibold text-[#331e10] whitespace-pre-wrap">
+                            {content.title}
+                          </h3>
                         </div>
-                        <p className="text-sm md:text-base leading-5 md:leading-6 font-normal text-[rgba(51,30,16,0.6)]">
-                          {item}
-                        </p>
+                        {/* Animated content overlay */}
+                        <AnimatePresence>
+                          <motion.div
+                            key={`title-${activeTab}`}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.4, ease: "easeInOut" }}
+                            className="absolute inset-0"
+                          >
+                            <h3 className="text-xl md:text-xl lg:text-xl xl:text-2xl leading-[28px] md:leading-[32px] lg:leading-[34px] xl:leading-[36px] font-semibold text-[#331e10] whitespace-pre-wrap">
+                              {content.title}
+                            </h3>
+                          </motion.div>
+                        </AnimatePresence>
                       </div>
-                    ))}
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-              
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`integrations-${activeTab}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex flex-col gap-2 items-start flex-1"
-                >
-                  <p className="text-sm font-medium leading-5 text-[#331e10] whitespace-pre-wrap min-w-full">
-                    Integrations
-                  </p>
-                  <div className="flex flex-wrap gap-4 md:gap-5 lg:gap-6 items-start">
-                    {(() => {
-                      const columns: string[][] = [];
-                      for (let i = 0; i < content.integrations.length; i += 3) {
-                        columns.push(content.integrations.slice(i, i + 3));
-                      }
 
-                      return columns.map((column, columnIndex) => (
-                        <div key={`column-${columnIndex}`} className="flex flex-col gap-2.5 md:gap-3">
-                          {column.map((item, index) => (
-                            <div key={`${columnIndex}-${index}`} className="flex gap-2 items-center">
-                              <div className="w-5 h-5 md:w-6 md:h-6 shrink-0">
-                                <Image
-                                  src="/meetemily/checkbox.svg"
-                                  alt="check"
-                                  width={24}
-                                  height={24}
-                                  className="w-5 h-5 md:w-6 md:h-6"
-                                  unoptimized
-                                />
+                      <div className="relative flex flex-col gap-2 items-start w-full">
+                        {/* Placeholder to maintain height in flow */}
+                        <div className="invisible pointer-events-none">
+                          <p className="text-sm font-medium leading-[1.6] text-[#331e10] tracking-[-0.168px]">
+                            What Emily Does
+                          </p>
+                          <div className="flex gap-2 items-center w-full">
+                            <p className="flex-1 text-sm md:text-[15px] lg:text-base leading-5 md:leading-[22px] lg:leading-6 font-normal text-[rgba(51,30,16,0.6)] whitespace-pre-wrap">
+                              {content.whatEmilyDoes}
+                            </p>
+                          </div>
+                        </div>
+                        {/* Animated content overlay */}
+                        <AnimatePresence>
+                          <motion.div
+                            key={`whatEmilyDoes-${activeTab}`}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.4, ease: "easeInOut" }}
+                            className="absolute inset-0"
+                          >
+                            <p className="text-sm font-medium leading-[1.6] text-[#331e10] tracking-[-0.168px]">
+                              What Emily Does
+                            </p>
+                            <div className="flex gap-2 items-center w-full">
+                              <p className="flex-1 text-sm md:text-[15px] lg:text-base leading-5 md:leading-[22px] lg:leading-6 font-normal text-[rgba(51,30,16,0.6)] whitespace-pre-wrap">
+                                {content.whatEmilyDoes}
+                              </p>
+                            </div>
+                          </motion.div>
+                        </AnimatePresence>
+                      </div>
+
+                      <div className="relative w-full">
+                        {/* Placeholder to maintain height in flow */}
+                        <div className="invisible pointer-events-none">
+                          <Button
+                            className="w-full h-[46px] md:h-[48px] lg:h-[50px] px-5 md:px-6 py-2 text-sm md:text-base"
+                            variant="Primary"
+                            size="sm"
+                          >
+                            {content.buttonText}
+                          </Button>
+                        </div>
+                        {/* Animated content overlay */}
+                        <AnimatePresence>
+                          <motion.div
+                            key={`button-${activeTab}`}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.4, ease: "easeInOut" }}
+                            className="absolute inset-0"
+                          >
+                            <Button
+                              className="w-full h-[46px] md:h-[48px] lg:h-[50px] px-5 md:px-6 py-2 text-sm md:text-base"
+                              variant="Primary"
+                              size="sm"
+                            >
+                              {content.buttonText}
+                            </Button>
+                          </motion.div>
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                    
+                    {/* Image Container */}
+                    <div className="relative bg-[#f0f0f0] w-full lg:flex-1 h-[260px] md:h-[300px] lg:h-[320px] xl:h-[324px] min-h-[260px] md:min-h-[300px] lg:min-h-[320px] xl:min-h-[324px] overflow-hidden rounded-xl md:rounded-2xl">
+                      <div className="absolute bg-gradient-to-b from-transparent via-transparent to-[#fbf7f3] h-[168px] left-1/2 -translate-x-1/2 top-[calc(100%-68px)] w-full" />
+                      <AnimatePresence>
+                        <motion.div
+                          key={`image-${activeTab}`}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.4, ease: "easeInOut" }}
+                          className="absolute inset-0"
+                        >
+                          <Image
+                            src={content.image}
+                            alt={content.title}
+                            fill
+                            className="object-contain p-3 md:p-4"
+                            loading="lazy"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
+                          />
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
+                  </div>
+
+                  {/* Guardrails and Integrations */}
+                  <div className="relative bg-white rounded-2xl md:rounded-3xl p-4 md:p-5 lg:p-6 flex flex-col lg:flex-row gap-8 md:gap-10 lg:gap-12 items-start w-full">
+                    {/* Placeholder to maintain height in flow */}
+                    <div className="invisible pointer-events-none flex flex-col lg:flex-row gap-8 md:gap-10 lg:gap-12 items-start w-full">
+                      <div className="flex flex-col gap-2 items-start">
+                        <p className="text-sm font-medium leading-5 text-[#331e10] whitespace-pre-wrap min-w-full">
+                          Guardrails
+                        </p>
+                        <div className="flex flex-col gap-2.5 md:gap-3 items-start">
+                          {content.guardrails.map((item, index) => (
+                            <div key={index} className="flex gap-2 items-center">
+                              <div className="shrink-0">
+                                <CheckIcon />
                               </div>
                               <p className="text-sm md:text-base leading-5 md:leading-6 font-normal text-[rgba(51,30,16,0.6)]">
                                 {item}
@@ -536,58 +535,164 @@ export default function MeetEmily() {
                             </div>
                           ))}
                         </div>
-                      ));
-                    })()}
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
+                      </div>
 
-            {/* What Emily Enables For You */}
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`enables-${activeTab}`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-col gap-1 items-start w-full"
-              >
-                <div className="flex gap-[10px] items-center justify-center">
-                  <p className="text-sm font-medium leading-5 text-[#331e10] whitespace-pre-wrap">
-                    What Emily Enables For You
-                  </p>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-3 md:gap-4 items-start w-full">
-                  {content.enables.map((item, index) => (
-                    <div
-                      key={index}
-                      className="bg-white rounded-xl px-4 md:px-5 lg:px-6 py-3 md:py-4 flex flex-col gap-2 items-start flex-1 min-w-0"
-                    >
-                      <div className="flex gap-2 items-center">
-                        <div className="w-5 h-5 md:w-6 md:h-6 shrink-0">
-                          <Image
-                            src="/meetemily/arrow.svg"
-                            alt="Arrow up"
-                            width={24}
-                            height={24}
-                            className="w-5 h-5 md:w-6 md:h-6"
-                            unoptimized
-                          />
-                        </div>
-                        <p className="text-sm md:text-base leading-5 md:leading-6 font-normal text-[rgba(51,30,16,0.6)]">
-                          {item}
+                      <div className="flex flex-col gap-2 items-start flex-1">
+                        <p className="text-sm font-medium leading-5 text-[#331e10] whitespace-pre-wrap min-w-full">
+                          Integrations
                         </p>
+                        <div className="flex flex-wrap gap-4 md:gap-5 lg:gap-6 items-start">
+                          {(() => {
+                            const columns: string[][] = [];
+                            for (let i = 0; i < content.integrations.length; i += 3) {
+                              columns.push(content.integrations.slice(i, i + 3));
+                            }
+
+                            return columns.map((column, columnIndex) => (
+                              <div key={`column-${columnIndex}`} className="flex flex-col gap-2.5 md:gap-3">
+                                {column.map((item, index) => (
+                                  <div key={`${columnIndex}-${index}`} className="flex gap-2 items-center">
+                                    <div className="shrink-0">
+                                      <CheckIcon />
+                                    </div>
+                                    <p className="text-sm md:text-base leading-5 md:leading-6 font-normal text-[rgba(51,30,16,0.6)]">
+                                      {item}
+                                    </p>
+                                  </div>
+                                ))}
+                              </div>
+                            ));
+                          })()}
+                        </div>
                       </div>
                     </div>
-                  ))}
+                    {/* Animated content overlay */}
+                    <AnimatePresence>
+                      <motion.div
+                        key={`guardrails-${activeTab}`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                        className="absolute inset-0 flex flex-col lg:flex-row gap-8 md:gap-10 lg:gap-12 items-start w-full p-4 md:p-5 lg:p-6"
+                      >
+                        <div className="flex flex-col gap-2 items-start">
+                          <p className="text-sm font-medium leading-5 text-[#331e10] whitespace-pre-wrap min-w-full">
+                            Guardrails
+                          </p>
+                          <div className="flex flex-col gap-2.5 md:gap-3 items-start">
+                            {content.guardrails.map((item, index) => (
+                              <div key={index} className="flex gap-2 items-center">
+                                <div className="shrink-0">
+                                  <CheckIcon />
+                                </div>
+                                <p className="text-sm md:text-base leading-5 md:leading-6 font-normal text-[rgba(51,30,16,0.6)]">
+                                  {item}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col gap-2 items-start flex-1">
+                          <p className="text-sm font-medium leading-5 text-[#331e10] whitespace-pre-wrap min-w-full">
+                            Integrations
+                          </p>
+                          <div className="flex flex-wrap gap-4 md:gap-5 lg:gap-6 items-start">
+                            {(() => {
+                              const columns: string[][] = [];
+                              for (let i = 0; i < content.integrations.length; i += 3) {
+                                columns.push(content.integrations.slice(i, i + 3));
+                              }
+
+                              return columns.map((column, columnIndex) => (
+                                <div key={`column-${columnIndex}`} className="flex flex-col gap-2.5 md:gap-3">
+                                  {column.map((item, index) => (
+                                    <div key={`${columnIndex}-${index}`} className="flex gap-2 items-center">
+                                      <div className="shrink-0">
+                                        <CheckIcon />
+                                      </div>
+                                      <p className="text-sm md:text-base leading-5 md:leading-6 font-normal text-[rgba(51,30,16,0.6)]">
+                                        {item}
+                                      </p>
+                                    </div>
+                                  ))}
+                                </div>
+                              ));
+                            })()}
+                          </div>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+
+                  {/* What Emily Enables For You */}
+                  <div className="relative flex flex-col gap-1 items-start w-full">
+                    {/* Placeholder to maintain height in flow */}
+                    <div className="invisible pointer-events-none flex flex-col gap-1 items-start w-full">
+                      <div className="flex gap-[10px] items-center justify-center">
+                        <p className="text-sm font-medium leading-5 text-[#331e10] whitespace-pre-wrap">
+                          What Emily Enables For You
+                        </p>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 md:gap-4 items-start w-full">
+                        {content.enables.map((item, index) => (
+                          <div
+                            key={index}
+                            className="bg-white rounded-xl px-4 md:px-5 lg:px-6 py-3 md:py-4 flex flex-col gap-2 items-start flex-1 min-w-0"
+                          >
+                            <div className="flex gap-2 items-center">
+                              <div className="shrink-0">
+                                <ArrowIcon />
+                              </div>
+                              <p className="text-sm md:text-base leading-5 md:leading-6 font-normal text-[rgba(51,30,16,0.6)]">
+                                {item}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Animated content overlay */}
+                    <AnimatePresence>
+                      <motion.div
+                        key={`enables-${activeTab}`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                        className="absolute inset-0 flex flex-col gap-1 items-start w-full"
+                      >
+                        <div className="flex gap-[10px] items-center justify-center">
+                          <p className="text-sm font-medium leading-5 text-[#331e10] whitespace-pre-wrap">
+                            What Emily Enables For You
+                          </p>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-3 md:gap-4 items-start w-full">
+                          {content.enables.map((item, index) => (
+                            <div
+                              key={index}
+                              className="bg-white rounded-xl px-4 md:px-5 lg:px-6 py-3 md:py-4 flex flex-col gap-2 items-start flex-1 min-w-0"
+                            >
+                              <div className="flex gap-2 items-center">
+                                <div className="shrink-0">
+                                  <ArrowIcon />
+                                </div>
+                                <p className="text-sm md:text-base leading-5 md:leading-6 font-normal text-[rgba(51,30,16,0.6)]">
+                                  {item}
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </section>
   );
 }

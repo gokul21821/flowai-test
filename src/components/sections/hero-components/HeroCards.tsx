@@ -7,33 +7,52 @@ interface BaseCardProps {
   isActive: boolean;
 }
 
+interface HeaderProps {
+  isActive: boolean;
+  title: string;
+}
+
+// Shared header component to ensure consistency
+const CardHeader = ({ isActive, title }: HeaderProps) => (
+  <div className="relative rounded-2xl overflow-hidden w-full">
+    {/* Backdrop blur layer */}
+    <div
+      className={`absolute inset-0 transition-colors duration-500 ${
+        isActive
+          ? "bg-[#1c275e]"
+          : "bg-white/60 backdrop-blur-[6px]"
+      }`}
+    />
+    {/* Border layer (only for inactive state) */}
+    {!isActive && (
+      <div className="absolute inset-0 rounded-2xl border border-[#b0b0b0]" />
+    )}
+    {/* Content layer */}
+    <div className="relative px-4 py-6 flex gap-2 items-center w-full">
+      <div className="w-4 h-4 shrink-0">
+        <Image
+          src="/icons/green-checkbox.svg"
+          alt=""
+          width={16}
+          height={16}
+        />
+      </div>
+      <p
+        className={`text-base md:text-lg leading-[26px] font-normal text-center flex-1 md:whitespace-nowrap ${
+          isActive ? "text-white" : "text-[rgba(0,0,0,0.6)]"
+        }`}
+      >
+        {title}
+      </p>
+    </div>
+  </div>
+);
+
 export const FaxCard = ({ isActive }: BaseCardProps) => {
   return (
     <div className="w-full flex flex-col items-center">
       {/* Header Pill */}
-      <div
-        className={`relative rounded-2xl px-4 py-6 flex gap-2 items-center w-full transition-colors duration-500 ${
-          isActive
-            ? "bg-[#1c275e]"
-            : "bg-white/60 backdrop-blur-[6px] border border-[#e3e3e3]"
-        }`}
-      >
-        <div className="w-4 h-4 shrink-0">
-          <Image
-            src="/icons/green-checkbox.svg"
-            alt=""
-            width={16}
-            height={16}
-          />
-        </div>
-        <p
-          className={`text-lg leading-[26px] font-normal text-center flex-1 whitespace-nowrap ${
-            isActive ? "text-white" : "text-[rgba(0,0,0,0.6)]"
-          }`}
-        >
-          Automate your Fax/Inbox Management
-        </p>
-      </div>
+      <CardHeader isActive={isActive} title="Automate your Fax/Inbox Management" />
 
       {/* Card Content */}
       <div
@@ -113,29 +132,7 @@ export const FaxCard = ({ isActive }: BaseCardProps) => {
 export const InsuranceCard = ({ isActive }: BaseCardProps) => {
   return (
     <div className="w-full flex flex-col items-center">
-      <div
-        className={`relative rounded-2xl px-4 py-6 flex gap-2 items-center w-full transition-colors duration-500 ${
-          isActive
-            ? "bg-[#1c275e]"
-            : "bg-white/60 backdrop-blur-[6px] border border-[#e3e3e3]"
-        }`}
-      >
-        <div className="w-4 h-4 shrink-0">
-          <Image
-            src="/icons/green-checkbox.svg"
-            alt=""
-            width={16}
-            height={16}
-          />
-        </div>
-        <p
-          className={`text-lg leading-[26px] font-normal text-center flex-1 whitespace-nowrap ${
-            isActive ? "text-white" : "text-[rgba(0,0,0,0.6)]"
-          }`}
-        >
-          Verify Patient Insurance & Co-Pay
-        </p>
-      </div>
+      <CardHeader isActive={isActive} title="Verify Patient Insurance & Co-Pay" />
 
       {/* Card Content */}
       <div
@@ -208,29 +205,7 @@ export const InsuranceCard = ({ isActive }: BaseCardProps) => {
 export const SchedulingCard = ({ isActive }: BaseCardProps) => {
   return (
     <div className="w-full flex flex-col items-center">
-      <div
-        className={`relative rounded-2xl px-4 py-6 flex gap-2 items-center w-full transition-colors duration-500 ${
-          isActive
-            ? "bg-[#1c275e]"
-            : "bg-white/60 backdrop-blur-[6px] border border-[#e3e3e3]"
-        }`}
-      >
-        <div className="w-4 h-4 shrink-0">
-          <Image
-            src="/icons/green-checkbox.svg"
-            alt=""
-            width={16}
-            height={16}
-          />
-        </div>
-        <p
-          className={`text-lg leading-[26px] font-normal text-center flex-1 whitespace-nowrap ${
-            isActive ? "text-white" : "text-[rgba(0,0,0,0.6)]"
-          }`}
-        >
-          Schedule Your Patient Appointments
-        </p>
-      </div>
+      <CardHeader isActive={isActive} title="Schedule Your Patient Appointments" />
 
       {/* Card Content */}
       <div
@@ -332,29 +307,7 @@ export const SchedulingCard = ({ isActive }: BaseCardProps) => {
 export const IntakeCard = ({ isActive }: BaseCardProps) => {
   return (
     <div className="w-full flex flex-col items-center">
-      <div
-        className={`relative rounded-2xl px-4 py-6 flex gap-2 items-center w-full transition-colors duration-500 ${
-          isActive
-            ? "bg-[#1c275e]"
-            : "bg-white/60 backdrop-blur-[6px] border border-[#e3e3e3]"
-        }`}
-      >
-        <div className="w-4 h-4 shrink-0">
-          <Image
-            src="/icons/green-checkbox.svg"
-            alt=""
-            width={16}
-            height={16}
-          />
-        </div>
-        <p
-          className={`text-lg leading-[26px] font-normal text-center flex-1 whitespace-nowrap ${
-            isActive ? "text-white" : "text-[rgba(0,0,0,0.6)]"
-          }`}
-        >
-          Complete Your Patient Intake & Check In
-        </p>
-      </div>
+      <CardHeader isActive={isActive} title="Complete Your Patient Intake & Check In" />
 
       {/* Card Content */}
       <div
