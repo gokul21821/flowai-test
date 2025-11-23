@@ -92,9 +92,9 @@ export default function Challenges() {
     { id: "profitability" as TabType, label: "Pressures on Profitability" },
   ];
 
-  // Preload all tab images on mount
+  // Preload remaining tab images on mount (first two are already prioritized)
   useEffect(() => {
-    const imagesToPreload = Object.values(tabContent).map(content => content.image);
+    const imagesToPreload = ["/challenges/legacy.png", "/challenges/profitability.png"];
     imagesToPreload.forEach(src => {
       const img = new window.Image();
       img.src = src;
@@ -180,6 +180,7 @@ export default function Challenges() {
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
                       className={`object-cover ${activeTab === "legacy" ? "object-left" : "object-center"}`}
+                      priority={activeTab === "broken"}
                     />
                   </motion.div>
                 </AnimatePresence>
