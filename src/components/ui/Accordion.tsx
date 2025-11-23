@@ -54,7 +54,11 @@ export default function Accordion({
   };
 
   return (
-    <div className={`flex flex-col ${variant === "card" ? "gap-4" : "divide-y divide-gray-200"} ${className}`}>
+    <div
+      className={`flex flex-col ${
+        variant === "card" ? "gap-3 md:gap-4" : "divide-y divide-gray-200"
+      } ${className}`}
+    >
       {items.map((item) => {
         const isOpen = openItems.has(item.id);
 
@@ -62,49 +66,52 @@ export default function Accordion({
           <div
             key={item.id}
             className={`
-              ${variant === "card" 
-                ? `bg-white rounded-3xl hover:border-gray-200 transition-colors ${isOpen ? "shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)]" : ""}` 
-                : "border-b border-gray-200 last:border-b-0"}
+              ${
+                variant === "card"
+                  ? `transition-colors rounded-2xl md:rounded-3xl bg-white hover:border-gray-200 ${
+                      isOpen ? "shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)]" : ""
+                    }`
+                  : "border-b border-gray-200 last:border-b-0"
+              }
             `}
           >
             <button
               onClick={() => toggleItem(item.id)}
               onKeyDown={(e) => handleKeyDown(e, item.id)}
               className={`
-                w-full text-left flex items-center justify-between gap-4 rounded-3xl relative
-                ${variant === "card" ? "p-9" : "py-6 px-4 hover:bg-gray-50"}
+                relative w-full text-left
+                rounded-2xl md:rounded-3xl overflow-hidden
+                ${
+                  variant === "card"
+                    ? "p-5 md:p-9"
+                    : "px-2 py-4 hover:bg-gray-50 md:px-4 md:py-6"
+                }
               `}
               aria-expanded={isOpen}
               aria-controls={`accordion-content-${item.id}`}
             >
-              <AnimatePresence mode="wait">
-                <motion.h3
-                  key={`${activeCategory}-${item.id}-question`}
-                  initial={{ x: activeCategoryIndex % 2 === 0 ? -30 : 30 }}
-                  animate={{ x: 0 }}
-                  exit={{ x: activeCategoryIndex % 2 === 0 ? 30 : -30 }}
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="text-lg md:text-lg font-medium text-[#130F0C]"
-                >
-                  {item.question}
-                </motion.h3>
-              </AnimatePresence>
+              {/* Icon Container - positioned absolutely in top right */}
               <div
                 className={`
-                  relative shrink-0 transition-transform duration-300 ease-in-out
-                  ${icon === "plus" 
-                    ? (isOpen ? "rotate-45" : "rotate-0") 
-                    : (isOpen ? "rotate-180" : "rotate-0")}
+                  absolute top-4 right-4 md:top-6 md:right-6 shrink-0 transition-transform duration-300 ease-in-out z-10
+                  ${
+                    icon === "plus"
+                      ? isOpen
+                        ? "rotate-45"
+                        : "rotate-0"
+                      : isOpen
+                      ? "rotate-180"
+                      : "rotate-0"
+                  }
                 `}
               >
                 {icon === "plus" ? (
-                  <div className="w-7 h-7 relative">
-                    <Image 
-                      src="/icons/plus.svg" 
-                      alt="Expand" 
-                      width={28} 
-                      height={28}
-                      className="w-full h-full"
+                  <div className="relative h-6 w-6 md:h-7 md:w-7">
+                    <Image
+                      src="/icons/plus.svg"
+                      alt="Expand"
+                      fill
+                      className="object-contain"
                     />
                   </div>
                 ) : (
@@ -113,7 +120,7 @@ export default function Accordion({
                     height="20"
                     viewBox="0 0 20 20"
                     fill="none"
-                    className="text-body-text"
+                    className="text-body-text h-5 w-5 md:h-6 md:w-6"
                   >
                     <path
                       d="M5 7.5L10 12.5L15 7.5"
@@ -125,7 +132,33 @@ export default function Accordion({
                   </svg>
                 )}
               </div>
+
+              {/* Question Text Container */}
+              <div className="pr-10 md:pr-12">
+                {/* Placeholder to maintain height */}
+                <div className="invisible pointer-events-none">
+                  <h3 className="text-base font-medium text-[#130F0C] md:text-lg">
+                    {item.question}
+                  </h3>
+                </div>
+                {/* Animated overlay */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`${activeCategory}-${item.id}-question`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    className="absolute inset-0 flex items-start pt-5 md:pt-9 pr-10 md:pr-12 px-2 md:px-4"
+                  >
+                    <h3 className="text-base font-medium text-[#130F0C] md:text-lg">
+                      {item.question}
+                    </h3>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </button>
+
             <AnimatePresence initial={false}>
               {isOpen && (
                 <motion.div
@@ -137,20 +170,36 @@ export default function Accordion({
                   className="overflow-hidden"
                   aria-hidden={!isOpen}
                 >
-                  <div className={`
-                    ${variant === "card" ? "px-9 pb-9 pt-0" : "px-4 pb-6"}
-                  `}>
-                    <AnimatePresence mode="wait">
-                      <motion.p
-                        key={`${activeCategory}-${item.id}-answer`}
-                        initial={{ x: activeCategoryIndex % 2 === 0 ? -30 : 30 }}
-                        animate={{ x: 0 }}
-                        exit={{ x: activeCategoryIndex % 2 === 0 ? 30 : -30 }}
-                        transition={{ duration: 0.25, ease: "easeOut" }}
-                        className="text-base md:text-lg leading-relaxed text-[#423F3D]"
-                      >
+                  <div
+                    className={`
+                      relative
+                      ${
+                        variant === "card"
+                          ? "px-5 pb-5 pt-0 md:px-9 md:pb-9"
+                          : "px-2 pb-4 md:px-4 md:pb-6"
+                      }
+                    `}
+                  >
+                    {/* Placeholder to maintain height */}
+                    <div className="invisible pointer-events-none">
+                      <p className="text-base leading-relaxed text-[#423F3D] md:text-lg">
                         {item.answer}
-                      </motion.p>
+                      </p>
+                    </div>
+                    {/* Animated overlay */}
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={`${activeCategory}-${item.id}-answer`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.6, ease: "easeInOut" }}
+                        className="absolute inset-0"
+                      >
+                        <p className="text-base leading-relaxed text-[#423F3D] md:text-lg">
+                          {item.answer}
+                        </p>
+                      </motion.div>
                     </AnimatePresence>
                   </div>
                 </motion.div>

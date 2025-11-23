@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 // --- Types ---
 
@@ -46,7 +47,7 @@ export default function ReasoningCard({
 }: ReasoningCardProps) {
   // Base styles shared by both layouts
   const baseStyles =
-    "flex flex-col items-start justify-between p-3 rounded-3xl transition-all duration-300 border border-white overflow-hidden";
+    "flex flex-col items-start justify-between p-3 rounded-3xl border border-white";
   
   // Background styles based on active state
   const backgroundStyle = isActive
@@ -60,7 +61,7 @@ export default function ReasoningCard({
   const containerClass =
     variant === "mobile"
       ? mobileWrapperStyles
-      : `${baseStyles} ${backgroundStyle} ${className} ${isActive ? "h-[520px]" : "h-[520px]"}`;
+      : `${baseStyles} ${backgroundStyle} ${className} ${isActive ? "h-[520px]" : "h-[520px]"} overflow-hidden`;
 
   return (
     <div className={containerClass} onClick={onClick}>
@@ -92,21 +93,11 @@ export default function ReasoningCard({
 
         {/* 2. Visual Content Area (Nested Cards or Graph) */}
         {/* Only show on Desktop if Active, always show on Mobile */}
-        {(isActive || variant === "mobile") && (
-          <div
-            className={`w-full flex flex-col items-center justify-center mt-4 ${
-              variant === "desktop" ? "min-h-[279px] flex-row gap-4" : "pb-20 sm:pb-8"
-            }`}
-          >
+        {variant === "mobile" ? (
+          <div className="w-full flex flex-col items-center justify-center mt-4 pb-20 sm:pb-8">
             {/* Case A: Nested Cards Stack */}
             {data.nestedCards && (
-              <div
-                className={`flex w-full ${
-                  variant === "mobile"
-                    ? "flex-col items-center"
-                    : "flex-row justify-center items-center gap-4"
-                }`}
-              >
+              <div className="flex w-full flex-col items-center">
                 {data.nestedCards.map((card, index) => (
                   <NestedCardItem
                     key={index}
@@ -123,19 +114,59 @@ export default function ReasoningCard({
               <GraphContent data={data} variant={variant} />
             )}
           </div>
+        ) : (
+          <AnimatePresence>
+            {isActive && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{
+                  duration: 0.2,
+                  ease: "easeOut",
+                }}
+                className="w-full flex flex-col items-center justify-center mt-4 min-h-[279px] flex-row gap-4"
+              >
+                {/* Case A: Nested Cards Stack */}
+                {data.nestedCards && (
+                  <div className="flex w-full flex-row justify-center items-center gap-4">
+                    {data.nestedCards.map((card, index) => (
+                      <NestedCardItem
+                        key={index}
+                        card={card}
+                        index={index}
+                        variant={variant}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* Case B: Graph & Metrics (Simulation) */}
+                {data.hasGraph && (
+                  <GraphContent data={data} variant={variant} />
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         )}
 
         {/* 3. Footer Section (Title/Desc for Desktop) */}
         {variant === "desktop" && (
           <div className="flex flex-col gap-2 items-start w-full text-left mt-auto">
-            <p className="font-semibold text-lg leading-[28px] text-[#130F0C] w-full">
+            <p className={`font-semibold text-[#130F0C] w-full ${
+              isActive
+                ? "text-lg leading-[28px] whitespace-nowrap overflow-hidden text-ellipsis"
+                : "text-sm md:text-base leading-5 md:leading-6 whitespace-normal"
+            }`}>
               {data.title}
             </p>
-            {isActive && (
-              <p className="font-normal text-sm leading-6 text-[#717171] w-full animate-in fade-in duration-300">
-                {data.description}
-              </p>
-            )}
+            <p className={`font-normal text-[#717171] w-full ${
+              isActive
+                ? "text-sm leading-6"
+                : "text-xs md:text-sm leading-4 md:leading-5"
+            }`}>
+              {data.description}
+            </p>
           </div>
         )}
       </div>

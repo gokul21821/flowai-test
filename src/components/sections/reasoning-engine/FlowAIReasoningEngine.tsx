@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import ReasoningCard, {
   CardType,
   CardContent,
@@ -121,18 +122,26 @@ export default function FlowAIReasoningEngine() {
         {(Object.keys(cardData) as CardType[]).map((key) => {
           const isActive = expandedCard === key;
           return (
-            <ReasoningCard
+            <motion.div
               key={key}
-              data={cardData[key]}
-              variant="desktop"
-              isActive={isActive}
-              onClick={() => handleCardClick(key)}
+              layout
+              transition={{
+                duration: 0.3,
+                ease: "easeInOut",
+              }}
               className={
                 isActive
-                  ? "w-[600px] shrink-0"
+                  ? "w-[58%] shrink-0"
                   : "flex-1 min-w-0"
               }
-            />
+            >
+              <ReasoningCard
+                data={cardData[key]}
+                variant="desktop"
+                isActive={isActive}
+                onClick={() => handleCardClick(key)}
+              />
+            </motion.div>
           );
         })}
       </div>
