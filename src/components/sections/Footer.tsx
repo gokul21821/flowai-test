@@ -37,31 +37,31 @@ export default function Footer() {
             {/* Column 1: Product Links */}
             <div className="flex flex-col gap-3 shrink-0">
               <Link
-                href="#product"
+                href="/#product"
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
               >
                 Product
               </Link>
               <Link
-                href="#outcomes"
+                href="/#outcomes"
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
               >
                 Outcomes
               </Link>
               <Link
-                href="#trust"
+                href="/#trust"
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
               >
                 Trust
               </Link>
               <Link
-                href="#about"
+                href="/#about"
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
               >
                 About
               </Link>
               <Link
-                href="#get-started"
+                href="/schedule-a-demo"
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
               >
                 Get Started
@@ -77,7 +77,7 @@ export default function Footer() {
                 Resources
               </Link>
               <Link
-                href="#"
+                href="/schedule-a-demo"
                 className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
               >
                 ROI Calculator
@@ -93,13 +93,13 @@ export default function Footer() {
           </p>
           <div className="flex gap-4 items-center">
             <Link
-              href="#"
+              href="/privacy-policy"
               className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
             >
               Privacy Policy
             </Link>
             <Link
-              href="#"
+              href="/terms-of-service"
               className="text-base leading-6 font-normal text-white opacity-70 hover:opacity-100 hover:underline hover:underline-offset-4 hover:decoration-white transition-all"
             >
               Terms & Conditions

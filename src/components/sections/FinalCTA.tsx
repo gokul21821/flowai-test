@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Button from "@/components/ui/Button";
 
@@ -24,11 +26,9 @@ export default function FinalCTA() {
           </p>
           
           {/* CTA Button - White with hover */}
-          <button
-            className="mt-2 bg-white text-[#130F0C] px-8 py-3 rounded-full font-medium text-base leading-6 hover:bg-gray-200 transition-colors cursor-pointer"
-          >
-            Try Flow AI Now
-          </button>
+          <Button variant="Secondary" size="md" className="w-auto px-8" href="/schedule-a-demo">
+             Try Flow AI Now
+            </Button>
         </div>
       </div>
     </section>

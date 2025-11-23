@@ -103,7 +103,7 @@ export default function TrustCenter() {
 
           {/* CTA Button */}
           <div className="flex gap-6 items-center">
-            <Button variant="Primary" size="md" className="w-auto px-8">
+            <Button variant="Primary" size="md" className="w-auto px-8" href="/schedule-a-demo">
               Request the security brief
             </Button>
           </div>

@@ -6,10 +6,10 @@ import Image from "next/image";
 import Button from "@/components/ui/Button";
 
 const navLinks = [
-  { label: "Product", href: "#product" },
-  { label: "Outcomes", href: "#outcomes" },
-  { label: "Trust", href: "#trust" },
-  { label: "About", href: "#about" },
+  { label: "Product", href: "/#product" },
+  { label: "Outcomes", href: "/#outcomes" },
+  { label: "Trust", href: "/#trust" },
+  { label: "About", href: "/#about" },
 ];
 
 export default function Navbar() {
@@ -67,7 +67,7 @@ export default function Navbar() {
 
         {/* Desktop CTA Button */}
         <div className="hidden md:block">
-          <Button variant="Outline" size="sm" href="#get-started">
+          <Button variant="Outline" size="sm" href="/schedule-a-demo">
             Get Started
           </Button>
         </div>
@@ -150,7 +150,7 @@ export default function Navbar() {
             <Button
               variant="Outline"
               size="sm"
-              href="#get-started"
+              href="/schedule-a-demo"
               onClick={closeMobileMenu}
               className="w-full"
             >

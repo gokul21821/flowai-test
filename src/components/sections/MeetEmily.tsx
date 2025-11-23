@@ -473,6 +473,7 @@ export default function MeetEmily() {
                             className="w-full h-[46px] md:h-[48px] lg:h-[50px] px-5 md:px-6 py-2 text-sm md:text-base"
                             variant="Primary"
                             size="sm"
+                            href="/schedule-a-demo"
                           >
                             {content.buttonText}
                           </Button>
@@ -491,6 +492,7 @@ export default function MeetEmily() {
                               className="w-full h-[46px] md:h-[48px] lg:h-[50px] px-5 md:px-6 py-2 text-sm md:text-base"
                               variant="Primary"
                               size="sm"
+                              href="/schedule-a-demo"
                             >
                               {content.buttonText}
                             </Button>

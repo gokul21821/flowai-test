@@ -455,6 +455,7 @@ export default function Results() {
                                 variant="Primary"
                                 size="sm"
                                 className="w-full h-14 px-8"
+                                href="/schedule-a-demo"
                               >
                                 {tabData.ctaText}
                               </Button>
