@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -92,6 +92,15 @@ export default function Challenges() {
     { id: "profitability" as TabType, label: "Pressures on Profitability" },
   ];
 
+  // Preload all tab images on mount
+  useEffect(() => {
+    const imagesToPreload = Object.values(tabContent).map(content => content.image);
+    imagesToPreload.forEach(src => {
+      const img = new window.Image();
+      img.src = src;
+    });
+  }, []);
+
   const currentContent = tabContent[activeTab];
 
   return (
@@ -125,11 +134,13 @@ export default function Challenges() {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   animate={{
-                    backgroundColor: activeTab === tab.id ? "#ffffff" : "rgba(0, 0, 0, 0)",
                     opacity: activeTab === tab.id ? 1 : 0.7,
                   }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="px-4 py-3 md:px-5 md:py-4 rounded-xl whitespace-nowrap border border-transparent hover:bg-white/50"
+                  style={{
+                    backgroundColor: activeTab === tab.id ? "#ffffff" : "transparent"
+                  }}
                 >
                   <p className={`font-medium text-base md:text-lg
                       ${activeTab === tab.id ? "text-[#130f0c]" : "text-[rgba(19,15,12,0.7)]"}`}>
@@ -169,7 +180,6 @@ export default function Challenges() {
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
                       className={`object-cover ${activeTab === "legacy" ? "object-left" : "object-center"}`}
-                      priority={activeTab === "broken"}
                     />
                   </motion.div>
                 </AnimatePresence>

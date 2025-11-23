@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
@@ -199,6 +199,15 @@ export default function MeetEmily() {
   const content = tabContent[activeTab];
   const activeTabIndex = getTabIndex(activeTab);
   const slideDirection = getSlideDirection(activeTabIndex);
+
+  // Preload all tab images on mount
+  useEffect(() => {
+    const imagesToPreload = Object.values(tabContent).map(content => content.image);
+    imagesToPreload.forEach(src => {
+      const img = new window.Image();
+      img.src = src;
+    });
+  }, []);
 
   const renderTabButton = useCallback((tabKey: TabType, layout: "horizontal" | "vertical") => {
     const isActive = activeTab === tabKey;
