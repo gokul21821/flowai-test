@@ -197,7 +197,7 @@ function NestedCardItem({
   const wrapperClasses =
     variant === "mobile"
       ? `bg-white border border-[#e3e3e3] rounded-2xl p-4 flex flex-col gap-3 shadow-sm w-[90%] max-w-[260px] sm:max-w-[280px] relative ${mobilePositionClasses} ${zIndexClass}`
-      : `bg-white border border-[#e3e3e3] flex flex-col gap-3 items-start px-3 py-3 rounded-[20px] w-auto min-w-[120px] flex-shrink-0`;
+      : `bg-white border border-[#e3e3e3] flex flex-col gap-3 items-start px-3 py-3 rounded-[20px] w-auto min-w-[80px] lg:min-w-[100px] xl:min-w-[120px] flex-1`;
 
   return (
     <div className={wrapperClasses}>
@@ -211,7 +211,7 @@ function NestedCardItem({
             className="w-full h-full"
           />
         </div>
-        <p className="font-medium text-sm sm:text-base text-black leading-[1.4]">
+        <p className="font-medium text-sm sm:text-base text-black leading-[1.4] break-words">
           {card.title}
         </p>
       </div>
@@ -219,7 +219,7 @@ function NestedCardItem({
         {card.items.map((item, idx) => (
           <p
             key={idx}
-            className="font-normal text-xs sm:text-sm text-black/60 leading-relaxed whitespace-nowrap overflow-hidden text-ellipsis"
+            className="font-normal text-xs sm:text-sm text-black/60 leading-relaxed break-words"
           >
             • {item}
           </p>
@@ -265,17 +265,17 @@ function GraphContent({
 
   // Desktop View
   return (
-    <div className="bg-white flex flex-row justify-center items-center gap-4 w-full h-full">
-      <div className="bg-white border border-[#e3e3e3] flex flex-col gap-1 items-start px-4 py-5 rounded-xl flex-shrink-0">
-        <p className="font-normal text-sm text-black/60">
+    <div className="bg-white flex flex-row justify-center items-center gap-2 lg:gap-4 w-full h-full">
+      <div className="bg-white border border-[#e3e3e3] flex flex-col gap-1 items-start px-3 py-4 lg:px-4 lg:py-5 rounded-xl flex-1 min-w-0">
+        <p className="font-normal text-xs lg:text-sm text-black/60 break-words">
           {data.metrics?.[0].label}
         </p>
-        <p className="font-medium text-xl text-black">
+        <p className="font-medium text-lg lg:text-xl text-black break-words">
           {data.metrics?.[0].value}
         </p>
       </div>
 
-      <div className="h-[125px] relative shrink-0 w-[200px]">
+      <div className="h-[100px] lg:h-[125px] relative shrink-0 w-[140px] lg:w-[200px]">
         <Image
           src="/reasoning-engine/customer-graph.svg"
           alt="Customer Graph"
@@ -284,11 +284,11 @@ function GraphContent({
         />
       </div>
 
-      <div className="bg-white border border-[#e3e3e3] flex flex-col gap-1 items-start px-4 py-5 rounded-xl flex-shrink-0">
-        <p className="font-normal text-sm text-black/60">
+      <div className="bg-white border border-[#e3e3e3] flex flex-col gap-1 items-start px-3 py-4 lg:px-4 lg:py-5 rounded-xl flex-1 min-w-0">
+        <p className="font-normal text-xs lg:text-sm text-black/60 break-words">
           {data.metrics?.[1].label}
         </p>
-        <p className="font-medium text-xl text-black">
+        <p className="font-medium text-lg lg:text-xl text-black break-words">
           {data.metrics?.[1].value}
         </p>
       </div>

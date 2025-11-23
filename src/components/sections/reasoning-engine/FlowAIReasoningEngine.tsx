@@ -21,12 +21,12 @@ const cardData: Record<CardType, CardContent> = {
         items: ["Policies", "Manuals", "FAQs", "Physician Directory"],
       },
       {
-        title: "Enterprise Data",
-        items: ["Payor Rates", "Self-Pay Rates", "Consent Forms"],
-      },
-      {
         title: "Context & Memory",
         items: ["Past Inter-actions", "Patient Preference"],
+      },
+      {
+        title: "Enterprise Data",
+        items: ["Payor Rates", "Self-Pay Rates", "Consent Forms"],
       },
     ],
   },
