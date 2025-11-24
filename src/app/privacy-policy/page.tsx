@@ -356,22 +356,28 @@ const privacyPolicySections = [
 
 export default function PrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-white">
+    <div 
+      className="min-h-screen pt-15 relative overflow-hidden"
+      style={{
+        background: "linear-gradient(187.36deg,rgba(245, 174, 74, 0.18) 13.74%,rgba(247, 178, 82, 0.53) 29.44%,rgba(253, 166, 90, 0.65) 43.7%,rgba(240, 118, 12, 0.56) 55.92%, rgba(250, 174, 67, 0.36) 72.74%, rgba(255, 255, 255, 0) 90.11%)",
+      }}
+    >
       <Navbar />
-      <main className="pt-[94px]">
-        <div className="w-full max-w-[1296px] mx-auto px-5 md:px-10 py-16 md:py-20">
+
+      <main className="flex justify-center px-5 md:px-10 py-16 md:py-20 relative z-10">
+        <div className="w-full max-w-[1296px] rounded-3xl bg-white p-8 md:p-12 lg:p-16 backdrop-blur-sm shadow-sm border border-white/20">
           {/* Header Section */}
-          <div className="text-center mb-12 md:mb-16">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1c275e] mb-4 md:mb-6">
+          <div className="mb-12 md:mb-16">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#1c275e] mb-4 md:mb-6 text-left">
               Privacy Policy
             </h1>
-            <h2 className="text-xl md:text-2xl font-semibold text-[#1c275e] mb-3 md:mb-4">
+            <h2 className="text-xl md:text-2xl font-semibold text-[#1c275e] mb-3 md:mb-4 text-left">
               Flow AI's HIPAA Compliance and Data Privacy Policy
             </h2>
-            <p className="text-sm md:text-base text-[#717171] mb-6 md:mb-8">
+            <p className="text-sm md:text-base text-[#717171] mb-6 md:mb-8 text-left">
               Last Updated: June 1, 2025
             </p>
-            <div className="max-w-4xl mx-auto text-left">
+            <div className="text-left">
               <p className="text-base md:text-lg leading-7 text-[#130f0c] mb-4">
                 Flow AI, Inc. ("Flow AI", "we," "us," or "our") respects your privacy and recognizes the importance of HIPAA compliance, patient & Flow AI user data privacy. We developed this Privacy Policy to explain how we collect, use, share, and protect your data and Personal Information (defined below), and your choices about the collection and use of Personal Information.
               </p>
@@ -387,10 +393,10 @@ export default function PrivacyPolicy() {
           {privacyPolicySections.map((section, index) => (
             <div key={index}>
               <section className="mb-8 md:mb-12">
-                <h3 className="text-2xl md:text-3xl font-bold text-[#1c275e] mb-6 ml-30 md:mb-8 text-left">
+                <h3 className="text-2xl md:text-3xl font-bold text-[#1c275e] mb-6 md:mb-8 text-left">
                   {section.title}
                 </h3>
-                <div className="ml-40 text-left">
+                <div className="text-left">
                   <div className="text-base md:text-base leading-7 text-[#130f0c]">
                     {section.content}
                   </div>
