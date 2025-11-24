@@ -41,10 +41,10 @@ export default function Button({
     },
     Secondary: {
       default: "bg-white text-[#0c1311]",
-      hover: "hover:bg-neutral-50 hover:border hover:border-[rgba(143,146,146,0.15)]",
+      hover: "hover:bg-neutral-50 ",
     },
     Outline: {
-      default: "bg-neutral-50 border border-[rgba(143,146,146,0.15)] text-[#0c1311]",
+      default: "bg-neutral-50 text-[#0c1311]",
       hover: "hover:bg-neutral-100",
     },
   };
@@ -65,6 +65,17 @@ export default function Button({
   );
 
   if (href && !disabled) {
+    // Check if it's an external URL (starts with http/https or different domain)
+    const isExternal = href.startsWith('http') || href.startsWith('//');
+
+    if (isExternal) {
+      return (
+        <a href={href} className={finalClasses}>
+          {content}
+        </a>
+      );
+    }
+
     return (
       <Link href={href} className={finalClasses}>
         {content}

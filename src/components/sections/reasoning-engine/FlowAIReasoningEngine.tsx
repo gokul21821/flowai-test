@@ -14,7 +14,7 @@ const cardData: Record<CardType, CardContent> = {
     number: "01",
     title: "Contextual Reasoning Engine",
     description:
-      "FlowAI's proprietary Contextual Reasoning Engine transforms patient access management with intelligence that feels empathetic — not procedural.",
+      "Flow AI's proprietary Contextual Reasoning Engine transforms patient access management with intelligence that feels empathetic — not procedural.",
     nestedCards: [
       {
         title: "Knowledge Base",

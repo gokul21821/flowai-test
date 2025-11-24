@@ -254,7 +254,7 @@ export default function MeetEmily() {
   return (
     <section
       id="product"
-      className="relative w-full min-h-screen md:min-h-[1100px] lg:min-h-[1200px] xl:min-h-[1273px] flex flex-col items-center overflow-hidden px-4 md:px-12 lg:px-16 xl:px-20 py-[80px] md:py-[100px] lg:py-[120px]"
+      className="relative w-full min-h-screen md:min-h-[1100px] lg:min-h-[1200px] xl:min-h-[1273px] flex flex-col items-center overflow-hidden px-4 md:px-12 lg:px-16 xl:px-20 "
       style={{
         background:
           "linear-gradient(154.93deg,rgb(255, 255, 255) 31.11%,rgb(255, 255, 255) 46.73%,rgb(249, 249, 248) 60.92%,rgb(255, 255, 255) 73.08%, rgba(246, 155, 35, 0.45) 89.82%, rgba(223, 198, 75, 0.77) 107.11%)",

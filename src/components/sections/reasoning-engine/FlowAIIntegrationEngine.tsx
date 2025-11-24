@@ -36,7 +36,7 @@ export default function FlowAIIntegrationEngine() {
       {/* Heading Section */}
       <div className="flex flex-col gap-4 items-center text-center w-full">
         <h2 className="font-medium text-[28px] leading-[1.1] text-[#130F0C] tracking-[-0.56px] max-w-[824px]">
-          FlowAI Integration Engine
+          Flow AI Integration Engine
         </h2>
         <p className="font-normal text-lg leading-[26px] text-[#717171] max-w-[600px]">
           Flow AI is integrated to work seamlessly with your existing EMR/RIS/Other System of Record and Telephony Systems

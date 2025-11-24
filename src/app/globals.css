@@ -134,3 +134,45 @@ body {
 .animate-scroll-right:hover {
   animation-play-state: paused;
 }
+
+/* React International Phone Styles */
+.react-international-phone-input-container {
+  display: flex !important;
+  gap: 0.5rem !important;
+}
+
+.react-international-phone-input-container .react-international-phone-input {
+  background-color: white !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.5rem !important;
+  color: #130f0c !important;
+  padding: 0.75rem 1rem !important;
+  transition: border-color 0.2s !important;
+  height: 48px !important;
+}
+
+.react-international-phone-input-container .react-international-phone-input:focus {
+  outline: none !important;
+  border-color: #f48024 !important;
+}
+
+.react-international-phone-input-container .react-international-phone-country-selector-button {
+  background-color: white !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.5rem !important;
+  padding: 0.75rem !important;
+  height: 48px !important;
+}
+
+.react-international-phone-input-container .react-international-phone-country-selector-button:hover {
+  background-color: #f9fafb !important;
+}
+
+.react-international-phone-country-selector-dropdown {
+  border-radius: 0.5rem !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}

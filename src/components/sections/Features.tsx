@@ -32,7 +32,7 @@ const featuresData = [
 
 export default function Features() {
   return (
-    <section id="about" className="w-full py-20 px-5 md:px-20 flex justify-center items-center bg-white">
+    <section id="about" className="w-full  px-5 md:px-20 flex justify-center items-center bg-white">
       {/* Container with gradient background and gaps */}
       <div
         className="w-full max-w-[1280px] rounded-[24px] p-5 md:p-8 lg:p-10"
@@ -47,7 +47,7 @@ export default function Features() {
           <div className="w-full xl:w-[537px] bg-white border border-white rounded-[24px] p-8 flex flex-col justify-between relative overflow-hidden shrink-0 h-auto xl:min-h-[652px]">
             <div className="flex flex-col gap-2 z-10 overflow-hidden">
               <h2 className="text-[36px] leading-[44px] font-medium tracking-[-0.72px] text-[#130f0c] break-words">
-                About FlowAI
+                About Flow AI
               </h2>
               <div className="text-[18px] leading-[26px] font-normal text-[#130f0c] opacity-60 break-words">
                 <p className="mb-[18px]">

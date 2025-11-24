@@ -6,7 +6,7 @@ import HeroAnimation from "./hero-components/HeroAnimation";
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-[1277px] flex flex-col items-center overflow-hidden">
+    <section className="relative w-full min-h-[900px] flex flex-col items-center overflow-hidden">
       {/* Orange Gradient Background */}
       <div
         className="absolute inset-0 w-full h-full"

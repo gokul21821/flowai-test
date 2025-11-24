@@ -53,7 +53,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex gap-10 h-11 items-center justify-center px-6 py-2 rounded-full">
+        <div className="hidden lg:flex gap-10 h-11 items-center justify-center px-6 py-2 rounded-full">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -65,16 +65,19 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Desktop CTA Button */}
-        <div className="hidden md:block">
+        {/* Desktop CTA Buttons */}
+        <div className="hidden lg:flex gap-3">
           <Button variant="Outline" size="sm" href="/schedule-a-demo">
             Get Started
+          </Button>
+          <Button variant="Primary" size="sm" href="https://dev.myflowai.com">
+            Log In
           </Button>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden flex flex-col gap-1.5 w-6 h-6 items-center justify-center"
+          className="lg:hidden flex flex-col gap-1.5 w-6 h-6 items-center justify-center"
           onClick={toggleMobileMenu}
           aria-label="Toggle mobile menu"
           aria-expanded={isMobileMenuOpen}
@@ -100,27 +103,20 @@ export default function Navbar() {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/20 z-40 md:hidden"
+          className="fixed inset-0 bg-black/20 z-40 lg:hidden"
           onClick={closeMobileMenu}
         />
       )}
 
       {/* Mobile Menu Slide-in Panel */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out lg:hidden ${
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex flex-col h-full">
           {/* Mobile Menu Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            <Image
-              src="/navbar/logo-light.svg"
-              alt="Flow AI Logo"
-              width={120}
-              height={26}
-              className="h-auto w-auto"
-            />
+          <div className="flex items-center justify-end p-6 border-b border-gray-200">
             <button
               onClick={closeMobileMenu}
               className="w-6 h-6 flex items-center justify-center"
@@ -145,8 +141,17 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Mobile CTA Button */}
-          <div className="p-6 border-t border-gray-200">
+          {/* Mobile CTA Buttons */}
+          <div className="p-6 border-t border-gray-200 space-y-3">
+            <Button
+              variant="Primary"
+              size="sm"
+              href="https://dev.myflowai.com"
+              onClick={closeMobileMenu}
+              className="w-full"
+            >
+              Log In
+            </Button>
             <Button
               variant="Outline"
               size="sm"

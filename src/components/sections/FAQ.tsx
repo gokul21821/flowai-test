@@ -185,7 +185,7 @@ export default function FAQ() {
   const [activeCategory, setActiveCategory] = useState(categories[0]);
   const activeCategoryIndex = categories.findIndex((cat) => cat === activeCategory);
   return (
-    <div className="w-full bg-white py-[100px] px-5 md:px-20 flex flex-col items-center gap-10">
+    <div className="w-full bg-white py-[50px] px-5 md:px-20 flex flex-col items-center gap-10">
       <style>{scrollbarStyles}</style>
   
       {/* Header */}

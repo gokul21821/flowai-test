@@ -104,7 +104,7 @@ export default function Challenges() {
   const currentContent = tabContent[activeTab];
 
   return (
-    <section className="relative w-full flex flex-col items-center justify-center px-5 md:px-14 py-12 md:py-16 bg-white">
+    <section className="relative w-full flex flex-col items-center justify-center px-5  md:px-14 bg-white">
       <style>{scrollbarStyles}</style>
 
       <div className="relative z-10 w-full max-w-[1280px] flex flex-col gap-10 md:gap-12 items-center">
